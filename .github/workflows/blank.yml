@@ -1,9 +1,7 @@
 name: CI
 on:
   push:
-    branches: [<which branches to run on>]
   pull_request:
-    branches: [<which branches to run on>]
   workflow_dispatch:
     # Defaults here are for workflow_dispatch only, all other events are set in EnvSetup.setup-output-defaults:
     inputs:
@@ -19,7 +17,7 @@ on:
 jobs:
   EnvSetup:
     name: Setup Dynamic Environment Variables
-    runs-on: <your-awesome-runner>
+    runs-on: ubuntu-latest
     outputs:
       wrapped: ${{ steps.set-output-defaults.outputs.as-json }}
     steps:
