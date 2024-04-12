@@ -24,7 +24,7 @@ jobs:
       - name: set outputs with default values
         id: set-output-defaults
         env:
-          inputs: ${{ toJSON(github.event.inputs) || '{"build-and-verify":"true", "something":"else"}' }}
+          inputs: ${{ github.event.inputs != null && toJSON(github.event.inputs) || '{"build-and-verify":"true", "something":"else"}' }}
         run: |    
           # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
           echo "as-json=$inputs" >> $GITHUB_OUTPUT
@@ -36,6 +36,6 @@ jobs:
     steps:
     - name: ...
       env:
-        env-variables-as-json: ${{needs.EnvSetup.outputs.wrapped}}
+        food: ${{needs.EnvSetup.outputs.wrapped}}
       run: |
-        echo "$env-variables-as-json"
+        echo "$food"
