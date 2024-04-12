@@ -28,3 +28,14 @@ jobs:
         run: |    
           # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
           echo "as-json=$inputs" >> $GITHUB_OUTPUT
+
+  invoke-workflow:
+    needs: [EnvSetup]
+    name: Use env
+    runs-on: ubuntu-latest
+    steps:
+    - name: ...
+      env:
+        env-variables-as-json: ${{needs.EnvSetup.outputs.wrapped}}
+      run: |
+        echo "$env-variables-as-json"
