@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+    branches: [<which branches to run on>]
+  pull_request:
+    branches: [<which branches to run on>]
+  workflow_dispatch:
+    # Defaults here are for workflow_dispatch only, all other events are set in EnvSetup.setup-output-defaults:
+    inputs:
+      build-and-verify:
+        description: 'Do a build and verify'
+        required: true
+        default: 'true'    
+      something:
+        description: 'Some thing'
+        required: true
+        default: else
+        
+jobs:
+  EnvSetup:
+    name: Setup Dynamic Environment Variables
+    runs-on: <your-awesome-runner>
+    outputs:
+      wrapped: ${{ steps.set-output-defaults.outputs.as-json }}
+    steps:
+      - name: set outputs with default values
+        id: set-output-defaults
+        env:
+          inputs: ${{ toJSON(github.event.inputs) || '{"build-and-verify":"true", "something":"else"}' }}
+        run: |    
+          # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
+          echo "as-json=$inputs" >> $GITHUB_OUTPUTS
