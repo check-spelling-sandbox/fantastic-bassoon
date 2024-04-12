@@ -27,4 +27,4 @@ jobs:
           inputs: ${{ toJSON(github.event.inputs) || '{"build-and-verify":"true", "something":"else"}' }}
         run: |    
           # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
-          echo "as-json=$inputs" >> $GITHUB_OUTPUTS
+          echo "as-json=$inputs" >> $GITHUB_OUTPUT
